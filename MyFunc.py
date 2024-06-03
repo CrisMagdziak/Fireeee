@@ -61,6 +61,7 @@ def lower_treshholders(dataframe) :
             print(f'Column: {x}')
             print(f'Lower treshold {lower_tresh(dataframe[x])}')
             print(f'Ilosc wartosci ponizej dolnego outlinera: {dataframe[x][dataframe[x] < lower_tresh(dataframe[x])].count()}\n')
+        
 
 def upper_treshholders(dataframe) :
     """ Check how many outliners-upper we have for each column
