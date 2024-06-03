@@ -57,9 +57,10 @@ def lower_treshholders(dataframe) :
     
     """
     for x in dataframe.select_dtypes(include= 'number') :
-        print(f'Column: {x}')
-        print(f'Lower treshold {lower_tresh(dataframe[x])}')
-        print(f'Ilosc wartosci ponizej dolnego outlinera: {dataframe[x][dataframe[x] < lower_tresh(dataframe[x])].count()}\n')
+        if dataframe[x][dataframe[x] < lower_tresh(dataframe[x])].count() > 0 :
+            print(f'Column: {x}')
+            print(f'Lower treshold {lower_tresh(dataframe[x])}')
+            print(f'Ilosc wartosci ponizej dolnego outlinera: {dataframe[x][dataframe[x] < lower_tresh(dataframe[x])].count()}\n')
 
 def upper_treshholders(dataframe) :
     """ Check how many outliners-upper we have for each column
@@ -69,6 +70,7 @@ def upper_treshholders(dataframe) :
     
     """
     for x in dataframe.select_dtypes(include= 'number') :
-        print(f'Column: {x}')
-        print(f'Upper treshold {upper_tresh(dataframe[x])}')
-        print(f'Ilosc wartosci powyzej górnego outlinera: {dataframe[x][dataframe[x] > upper_tresh(dataframe[x])].count()}\n')
+        if dataframe[x][dataframe[x] > upper_tresh(dataframe[x])].count() > 0 :
+            print(f'Column: {x}')
+            print(f'Upper treshold {upper_tresh(dataframe[x])}')
+            print(f'Ilosc wartosci powyzej górnego outlinera: {dataframe[x][dataframe[x] > upper_tresh(dataframe[x])].count()}\n')
