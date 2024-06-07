@@ -78,29 +78,6 @@ def upper_treshholders(dataframe) :
             print(f'Ilosc wartosci powyzej górnego outlinera: {dataframe[x][dataframe[x] > upper_tresh(dataframe[x])].count()}\n')
 
 
-def calculate_woe(df, feature, target) :
-    """ Function that calculate weight of evidence
-
-        Args: 
-            df -> dataframe
-            target -> our target(y) feature
-            feature -> column that we want to map
-
-        Return: a map of the WOE values for the individual categories
-    """ 
-    df = df.copy()
-    df['target'] = target
-    categories = df[feature].unique()
-    woe_map = {}
-
-    for category in categories :
-        total_good = df[df[feature] == category]['target'].sum()
-        total_bad = df[df[feature] == category]['target'].count() - total_good
-        woe = np.log((total_good / total_bad) / (df['target'].sum() / df['target'].count()))
-        woe_map[category] = woe
-    return woe_map
-
-
 def is_numeric(col):
     """ Check if columns have only numeric values
 
@@ -112,3 +89,15 @@ def is_numeric(col):
         return True
     except ValueError:
         return False
+    
+
+def encode_labels(df, list, encoder) :
+    """ Function that encode columns to label
+
+    Args: 
+        list -> type List, columns that need to be encoded
+    return dataframe
+    """
+    for col in list:
+        df[col] = encoder.fit_transform(df[col])
+    return df
