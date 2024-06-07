@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 def classify_row(value):
     """ Function that check if or contains word Dwelling
@@ -75,3 +76,39 @@ def upper_treshholders(dataframe) :
             print(f'Column: {x}')
             print(f'Upper treshold {upper_tresh(dataframe[x])}')
             print(f'Ilosc wartosci powyzej górnego outlinera: {dataframe[x][dataframe[x] > upper_tresh(dataframe[x])].count()}\n')
+
+
+def calculate_woe(df, feature, target) :
+    """ Function that calculate weight of evidence
+
+        Args: 
+            df -> dataframe
+            target -> our target(y) feature
+            feature -> column that we want to map
+
+        Return: a map of the WOE values for the individual categories
+    """ 
+    df = df.copy()
+    df['target'] = target
+    categories = df[feature].unique()
+    woe_map = {}
+
+    for category in categories :
+        total_good = df[df[feature] == category]['target'].sum()
+        total_bad = df[df[feature] == category]['target'].count() - total_good
+        woe = np.log((total_good / total_bad) / (df['target'].sum() / df['target'].count()))
+        woe_map[category] = woe
+    return woe_map
+
+
+def is_numeric(col):
+    """ Check if columns have only numeric values
+
+        Args: 
+            col -> columns where we are checking
+    """
+    try:
+        pd.to_numeric(col)
+        return True
+    except ValueError:
+        return False
